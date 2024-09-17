@@ -38,4 +38,4 @@ sudo docker run -d --name xrcloud-nginx --restart always --network xrcloud \
     -p 80:80 -p 443:443 \
     -v "$SSL_DIR:/etc/ssl" \
     -v "$NGINX_CONF:/etc/nginx/nginx.conf" \
-    -v /app/xrcloud-backend/storage:/app/xrcloud-backend/storage xrcloud-nginx:latest \
+    -v /home/belivvr/data/xrcloud/storage:/app/xrcloud-backend/storage xrcloud-nginx:latest \
