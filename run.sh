@@ -4,13 +4,19 @@
 MODE=$1
 HOME_DIR=$(pwd)
 
+# 파라미터가 없을 때 메시지 출력하고 종료
+if [ -z "$MODE" ]; then
+    echo "Error: Please provide a mode (prod or dev)."
+    echo "Usage: $0 [prod|dev]"
+    exit 1
+fi
 
 if [ "$MODE" == "prod" ]; then
     echo "Running in production mode..."
     # nginx home 위치는 현재 위치를 받아서 설정
     SSL_DIR="$HOME_DIR/ssl"
     NGINX_CONF="$HOME_DIR/nginx.conf"
-else
+else 
     echo "Running in development mode..."
     # dev 모드에서 다른 디렉토리로 설정
     SSL_DIR="$HOME_DIR/ssl.dev"
@@ -32,5 +38,4 @@ sudo docker run -d --name xrcloud-nginx --restart always --network xrcloud \
     -p 80:80 -p 443:443 \
     -v "$SSL_DIR:/etc/ssl" \
     -v "$NGINX_CONF:/etc/nginx/nginx.conf" \
-    -v /app/xrcloud-backend/storage:/app/xrcloud-backend/storage \
-    xrcloud-nginx:latest
+    -v /app/xrcloud-backend/storage:/app/xrcloud-backend/storage xrcloud-nginx:latest \
