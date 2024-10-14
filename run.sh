@@ -16,11 +16,13 @@ if [ "$MODE" == "prod" ]; then
     # nginx home 위치는 현재 위치를 받아서 설정
     SSL_DIR="$HOME_DIR/ssl"
     NGINX_CONF="$HOME_DIR/nginx.conf"
+    STORAGE_PATH="/mnt/xrcloud-prod-ko/xrcloud/storage"
 else 
     echo "Running in development mode..."
     # dev 모드에서 다른 디렉토리로 설정
     SSL_DIR="$HOME_DIR/ssl.dev"
     NGINX_CONF="$HOME_DIR/nginx.dev.conf"
+    STORAGE_PATH="/data/xrcloud/storage"
 fi
 
 # 기존 nginx 서비스 중지
@@ -38,6 +40,6 @@ sudo docker run -d --name xrcloud-nginx --restart always --network xrcloud \
     -p 80:80 -p 443:443 \
     -v "$SSL_DIR:/etc/ssl" \
     -v "$NGINX_CONF:/etc/nginx/nginx.conf" \
-    -v /mnt/xrcloud-prod-ko/xrcloud/storage:/app/xrcloud-backend/storage \
+    -v "$STORAGE_PATH:/app/xrcloud-backend/storage" \
     -v /app/xrcloud-nginx/logs:/var/log/nginx \
     xrcloud-nginx:latest
