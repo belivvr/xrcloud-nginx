@@ -19,10 +19,10 @@ if [ "$MODE" == "prod" ]; then
     STORAGE_PATH="/mnt/xrcloud-prod-ko/xrcloud/storage"
 else 
     echo "Running in development mode..."
-    # dev 모드에서 다른 디렉토리로 설정
+    # dev 모드에서 다른 디렉토리로 설정, 일반적으로 storage사용하나, cnu의 경우 subStoage 사용 (cnu설정에서는 동일하게 써야 할까?)
     SSL_DIR="$HOME_DIR/ssl.dev"
     NGINX_CONF="$HOME_DIR/nginx.dev.conf"
-    STORAGE_PATH="/data/xrcloud/storage"
+    STORAGE_PATH="/mnt/xrcloud-prod-ko/xrcloud.dev/storage"    
 fi
 
 # 기존 nginx 서비스 중지
