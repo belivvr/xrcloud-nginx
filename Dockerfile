@@ -1,4 +1,4 @@
-# 베이스 이미지 설정
+# Base Image Setting
 FROM nginx:latest
 
 # nginx.conf 파일을 컨테이너 내로 복사
