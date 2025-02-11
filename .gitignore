@@ -1,0 +1,6 @@
+*.log
+*.conf
+*.pem
+*.crt
+*.key
+*.jwk.json
