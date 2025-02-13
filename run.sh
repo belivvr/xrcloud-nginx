@@ -11,18 +11,27 @@ if [ -z "$MODE" ]; then
     exit 1
 fi
 
+# 환경 변수 파일 로드
+ENV_FILE="$HOME_DIR/.env.$MODE"
+if [ ! -f "$ENV_FILE" ]; then
+    echo "Error: Environment file $ENV_FILE does not exist."
+    exit 1
+fi
+
+# 환경 변수 로드
+source "$ENV_FILE"
+
 if [ "$MODE" == "prod" ]; then
     echo "Running in production mode..."
-    # nginx home 위치는 현재 위치를 받아서 설정
-    SSL_DIR="$HOME_DIR/ssl"
-    NGINX_CONF="$HOME_DIR/nginx.conf"
-    STORAGE_PATH="/mnt/xrcloud-prod-ko/xrcloud/storage"
 else 
     echo "Running in development mode..."
-    # dev 모드에서 다른 디렉토리로 설정, 일반적으로 storage사용하나, cnu의 경우 subStoage 사용 (cnu설정에서는 동일하게 써야 할까?)
-    SSL_DIR="$HOME_DIR/ssl.dev"
-    NGINX_CONF="$HOME_DIR/nginx.dev.conf"
-    STORAGE_PATH="/mnt/xrcloud-prod-ko/xrcloud.dev/storage"    
+fi
+
+# 필수 환경 변수 체크
+if [ -z "$SSL_DIR" ] || [ -z "$NGINX_CONF" ] || [ -z "$STORAGE_PATH" ]; then
+    echo "Error: Required environment variables are not set."
+    echo "Please check your $ENV_FILE file."
+    exit 1
 fi
 
 # 기존 nginx 서비스 중지
